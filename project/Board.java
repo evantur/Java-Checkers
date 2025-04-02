@@ -2,7 +2,7 @@
  * Description: This is the board class. This is the heart of the game with all of its functions.
  */
 
-package Checkers; //calls other classes
+package project; //calls other classes
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

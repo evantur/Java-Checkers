@@ -1,7 +1,6 @@
-package Checkers;
+package project;
 
-class movesMade { // movesMade class begins
-
+class movesMade {
     int fromRow, fromCol; // declares from row and column as public ints
     int toRow, toCol; // declares to row and column as public ints
 
@@ -15,5 +14,4 @@ class movesMade { // movesMade class begins
     boolean isJump() { // checks if move is a jump
         return (fromRow - toRow == 2 || fromRow - toRow == -2);
     }
-
 }

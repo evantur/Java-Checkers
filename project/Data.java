@@ -1,4 +1,4 @@
-package Checkers;
+package project;
 import java.util.ArrayList;
 
 class Data { //Data class begins
@@ -44,9 +44,7 @@ class Data { //Data class begins
     }
 
     public int pieceAt(int row, int col) { //method that returns pieces' location
-
         return board[row][col];
-
     }
 
     public void makeMove(movesMade move) { //method that takes in movesMade type and makes a move
