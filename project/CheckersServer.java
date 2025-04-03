@@ -12,6 +12,20 @@ public class CheckersServer {
     public static void main(String[] args) throws Exception {
         ServerSocket listener = new ServerSocket(8901);
         System.out.println("Server is running");
+        try {
+            while(true) {
+                Game game = new Game();
+                Game.Player player1 = game.new Player(listener.accept(), 1);
+                Game.Player player2 = game.new Player(listener.accept(), 2);
+                player1.setOpponent(player2);
+                player2.setOpponent(player1);
+                game.currentPlayer = player1;
+                player1.start();
+                player2.start();
+            }
+        } finally {
+            listener.close();
+        }
     }
     
 }
@@ -59,15 +73,7 @@ class Game {
                 while (true) {
                     String command = input.readLine();
                     if (command.startsWith("MOVE")) {
-                        int location = Integer.parseInt(command.substring(5));
-                        if (legalMove(location, this)) {
-                            output.println("VALID_MOVE");
-                            output.println(hasWinner() ? "VICTORY"
-                                         : boardFilledUp() ? "TIE"
-                                         : "");
-                        } else {
-                            output.println("MESSAGE ?");
-                        }
+                        
                     } else if (command.startsWith("QUIT")) {
                         return;
                     }

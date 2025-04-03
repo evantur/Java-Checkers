@@ -6,6 +6,9 @@ package project; //calls other classes
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 
 class Board extends JPanel implements ActionListener, MouseListener { //Board class beings, extends on JPanel class
 
@@ -21,6 +24,9 @@ class Board extends JPanel implements ActionListener, MouseListener { //Board cl
     JLabel message; //message JLabel on frame - indicates whose turn it is
     String Player1; //first player's name
     String Player2; //second player's name
+    Socket socket;
+    BufferedReader in;
+    PrintWriter out;
 
     public Board() { //default constructor
 
