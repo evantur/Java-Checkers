@@ -57,7 +57,7 @@ public class CheckersClient {
         while (true) {
             String serverAddress = "localhost";
             CheckersClient client = new CheckersClient(serverAddress);
-            
+            // if client doesn't want to play again: break
         }
     }
 }

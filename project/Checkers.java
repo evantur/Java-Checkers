@@ -12,7 +12,7 @@ public class Checkers extends JFrame { //Checkers class begins, extends on JFram
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.getContentPane();
         game.pack();
-        game.setSize(324,454);
+        game.setSize(340,454);
         game.setResizable(false); //the window is not resizable
         game.setLayout(null);
         game.setVisible(true);
