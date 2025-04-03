@@ -1,4 +1,4 @@
-package Checkers;
+package project2;
 import java.awt.*;
 import javax.swing.*;
 
