@@ -1,4 +1,4 @@
-package project;
+package project1;
 
 import java.awt.Color;
 import java.io.BufferedReader;
@@ -30,14 +30,14 @@ public class CheckersClient {
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.getContentPane();
         game.pack();
-        game.setSize(324,454);
+        game.setSize(340,454);
         game.setResizable(false); //the window is not resizable
         game.setLayout(null);
         game.setVisible(true);
         game.setBackground(new Color(225, 225, 225));
 
         //creates new Board and adds its components
-        board = new Board();
+        board = new Board(socket, in, out);
         game.add(board);
         game.add(board.title);
         game.add(board.newGame);
@@ -54,10 +54,7 @@ public class CheckersClient {
     }
 
     public static void main(String[] args) throws Exception {
-        while (true) {
-            String serverAddress = "localhost";
-            CheckersClient client = new CheckersClient(serverAddress);
-            // if client doesn't want to play again: break
-        }
+        String serverAddress = "localhost";
+        CheckersClient client = new CheckersClient(serverAddress);
     }
 }

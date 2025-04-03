@@ -1,4 +1,4 @@
-package project;
+package project1;
 
 class movesMade {
     int fromRow, fromCol; // declares from row and column as public ints

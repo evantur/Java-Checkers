@@ -1,7 +1,7 @@
-package project;
+package project1;
 import java.util.ArrayList;
 
-class Data { //Data class begins
+class Data {
 
     public static final int //declares final ints, representing the state of a square
     blank = 0,
@@ -47,7 +47,7 @@ class Data { //Data class begins
         return board[row][col];
     }
 
-    public void makeMove(movesMade move) { //method that takes in movesMade type and makes a move
+    public synchronized void makeMove(movesMade move) { //method that takes in movesMade type and makes a move
         makeMove(move.fromRow, move.fromCol, move.toRow, move.toCol);
     }
 

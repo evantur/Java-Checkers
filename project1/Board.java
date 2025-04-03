@@ -2,7 +2,7 @@
  * Description: This is the board class. This is the heart of the game with all of its functions.
  */
 
-package project; // calls other classes
+package project1;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -22,13 +22,39 @@ class Board extends JPanel implements ActionListener, MouseListener { // Board c
     JButton howToPlay; // howToPlay JButton on frame - gives intro to Checkers and how to play
     JButton credits; // credits JButton on frame - displays credits
     JLabel message; // message JLabel on frame - indicates whose turn it is
-    String Player1; // first player's name
-    String Player2; // second player's name
     Socket socket;
     BufferedReader in;
     PrintWriter out;
 
-    public Board(Socket socket, BufferedReader in, PrintWriter out) { // default constructor
+    // public Board() { // default constructor
+
+    //     addMouseListener(this); // implements Mouse Listener
+
+    //     // assigns all JLabels and JButtons to their values, as well as styles them
+    //     title = new JLabel("Checkers!");
+    //     title.setFont(new Font("Serif", Font.CENTER_BASELINE, 40));
+    //     title.setHorizontalAlignment(SwingConstants.CENTER);
+    //     title.setForeground(Color.darkGray);
+    //     howToPlay = new JButton("Checkers?");
+    //     howToPlay.addActionListener(this);
+    //     newGame = new JButton("New Game");
+    //     newGame.addActionListener(this);
+    //     credits = new JButton("Credits");
+    //     credits.addActionListener(this);
+    //     message = new JLabel("",JLabel.CENTER);
+    //     message.setFont(new  Font("Serif", Font.BOLD, 14));
+    //     message.setHorizontalAlignment(SwingConstants.CENTER);
+    //     message.setForeground(Color.darkGray);
+        
+    //     board = new Data(); // assigns to new Data class
+    //     NewGame(); // calls to start a new game
+    // }
+
+    public Board(Socket socket, BufferedReader in, PrintWriter out) { // multiplayer constructor
+
+        this.socket = socket;
+        this.in = in;
+        this.out = out;
 
         addMouseListener(this); // implements Mouse Listener
 
@@ -49,7 +75,7 @@ class Board extends JPanel implements ActionListener, MouseListener { // Board c
         message.setForeground(Color.darkGray);
         
         board = new Data(); // assigns to new Data class
-        getPlayersNames(); // calls to get players' names
+        // getPlayersNames(); // calls to get players' names
         NewGame(); // calls to start a new game
     }
 
@@ -68,7 +94,7 @@ class Board extends JPanel implements ActionListener, MouseListener { // Board c
         currentPlayer = Data.player1; // indicates its player 1's move
         legalMoves = board.getLegalMoves(Data.player1); // searches for legal moves
         selectedRow = -1; // no square is selected
-        message.setText("It's " + Player1 + "'s turn."); // indicates whose turn it is
+        message.setText("It's Player1's turn."); // indicates whose turn it is
         gameInProgress = true; // sets gameInProgress as true
         newGame.setEnabled(true); // enables newGame button
         howToPlay.setEnabled(true); // enables howToPlayButton
@@ -77,26 +103,26 @@ class Board extends JPanel implements ActionListener, MouseListener { // Board c
 
     }
 
-    public void getPlayersNames(){ // gets players names through JTextField
+    // public void getPlayersNames(){ // gets players names through JTextField
 
-        JTextField playerName = new JTextField("Player 1");        
+    //     JTextField playerName = new JTextField("Player 1");        
 
-        // creates new JPanel to store the JTextFields
-        JPanel getNames = new JPanel();
-        getNames.setLayout(new BoxLayout(getNames, BoxLayout.PAGE_AXIS));
-        getNames.add(playerName);
+    //     // creates new JPanel to store the JTextFields
+    //     JPanel getNames = new JPanel();
+    //     getNames.setLayout(new BoxLayout(getNames, BoxLayout.PAGE_AXIS));
+    //     getNames.add(playerName);
 
-        // player inputs name through Confirm Dialog
-        int result = JOptionPane.showConfirmDialog(null, getNames, "Enter Your Names!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+    //     // player inputs name through Confirm Dialog
+    //     int result = JOptionPane.showConfirmDialog(null, getNames, "Enter Your Names!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         
-        if (result == JOptionPane.OK_OPTION) { // if players give names, names are assigned
-            Player1 = playerName.getText();
-        } else { // otherwise default names are given
-            Player1 = "Player 1";
-        }
+    //     if (result == JOptionPane.OK_OPTION) { // if players give names, names are assigned
+    //         Player1 = playerName.getText();
+    //     } else { // otherwise default names are given
+    //         Player1 = "Player 1";
+    //     }
 
-    }
+    // }
 
     void instructions() { // when howToPlay button is pressed, instruction Message Dialog appears
 
@@ -140,9 +166,9 @@ class Board extends JPanel implements ActionListener, MouseListener { // Board c
                 selectedRow = row; // assigns selected row
                 selectedCol = col; // assigns selected column
                 if (currentPlayer == Data.player1) // indicates whose turn it is
-                    message.setText("It's " + Player1 + "'s turn.");
+                    message.setText("It's Player1's turn.");
                 else
-                    message.setText("It's " + Player2 + "'s turn.");
+                    message.setText("It's Player2's turn.");
                 repaint(); // repaints board
                 return;
             }
@@ -174,9 +200,9 @@ class Board extends JPanel implements ActionListener, MouseListener { // Board c
             legalMoves = board.getLegalJumpsFrom(currentPlayer, move.toRow, move.toCol);
             if (legalMoves != null) { // if player must jump again
                 if (currentPlayer == Data.player1)
-                    message.setText(Player1 + ", you must jump."); // indicates that player 1 must jump
+                    message.setText("Player1, you must jump."); // indicates that player 1 must jump
                 else
-                    message.setText(Player2 + ", you must jump."); // indicates that player 2 must jump
+                    message.setText("Player2, you must jump."); // indicates that player 2 must jump
                 selectedRow = move.toRow; // assigns selected row to destination row
                 selectedCol = move.toCol; // assigns selected column to destination column
                 repaint(); // repaints board
@@ -188,20 +214,20 @@ class Board extends JPanel implements ActionListener, MouseListener { // Board c
             currentPlayer = Data.player2; // it's now player 2's
             legalMoves = board.getLegalMoves(currentPlayer); // gets legal moves for player 2
             if (legalMoves == null) // if there aren't any moves, player 1 wins
-                gameOver(Player1 + " wins!");
+                gameOver("Player1 wins!");
             else if (legalMoves[0].isJump()) // if player 2 must jump, it indicates so
-                message.setText(Player2 + ", you must jump.");
+                message.setText("Player2, you must jump.");
             else // otherwise, it indicates it's player 2's turn
-                message.setText("It's " + Player2 + "'s turn.");
+                message.setText("It's Player2's turn.");
         } else { // otherwise, if it was player 2's turn
             currentPlayer = Data.player1; // it's now player 1's turn
             legalMoves = board.getLegalMoves(currentPlayer); // gets legal moves for player 1
             if (legalMoves == null) // if there aren't any moves, player 2 wins
-                gameOver(Player2 + " wins!");
+                gameOver("Player2 wins!");
             else if (legalMoves[0].isJump()) // if player 1 must jump, it indicates so
-                message.setText(Player1 + ", you must jump.");
+                message.setText("Player1, you must jump.");
             else // otherwise, it indicates it's player 1's turn
-                message.setText("It's " + Player1 + "'s turn.");
+                message.setText("It's Player1's turn.");
         }
 
         selectedRow = -1; // no squares are not selected

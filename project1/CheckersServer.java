@@ -1,4 +1,4 @@
-package project;
+package project1;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class CheckersServer {
 }
 
 class Game {
-    private Data state = new Data();
+    // private Data state = new Data();
 
     Player currentPlayer;
 
