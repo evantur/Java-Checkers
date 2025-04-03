@@ -1,6 +1,8 @@
 package project2;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -14,7 +16,8 @@ public class Scoreboard {
         System.out.println("Scoreboard server is running");
         try {
             while (true) {
-
+                ScoreKeeper sk = new ScoreKeeper();
+                ScoreKeeper.Game game = sk.new Game(listener.accept());
             }
         } finally {
             listener.close();
@@ -23,14 +26,33 @@ public class Scoreboard {
 
 }
 
-class Game {
+class ScoreKeeper {
     private String[] players = new String[2];
     private int white, whiteKings, black, blackKings, currentPlayer;
+    private Game sk;
+
+    // TODO
+    public boolean drawReached() {
+        return false;
+    }
+
+    public boolean hasWinner() {
+        if (white == 0 || black == 0) return true;
+        else return false;
+    }
     
 
-    class ScoreKeeper {
+    class Game {
         Socket socket;
         BufferedReader input;
         PrintWriter output;
+
+        public Game(Socket socket) {
+            this.socket = socket;
+            try {
+                input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                output = new PrintWriter(socket.getOutputStream(), true);
+            } catch (IOException e) {}
+        }
     }
 }
